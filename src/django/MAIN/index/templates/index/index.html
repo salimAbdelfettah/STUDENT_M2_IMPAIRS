@@ -1,0 +1,38 @@
+{% load i18n staticfiles%}
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <title>WiSearch : le moteur de recherche sur les pages Wikipedia</title>
+        <link rel="stylesheet" href="{% static 'index/base.css' %}">
+</head>
+
+<body>
+        <section id="indexapp" class="main">
+            <header>
+                <center><h1 class="search">WiSearch</h1></center>
+            </header>
+            <form class="search" method="post" action="" >{% csrf_token %}
+                {{form.as_p}}
+                <center><button type="submit" class="save btn btn-default">Recherche</button></center>
+            </form>
+            {% if code == 0 %}
+                <p>
+                    Aucun mot dans '{{mots_cles}}' ne fait parti du dictionnaire !
+                    <br/>
+                    Veuillez modifier votre requête.
+                </p>
+            {% elif code == 1 or code == 2 %}
+                <section>
+                {% for page in pages %}
+                    <span><a href="https://fr.wikipedia.org/wiki/{{page}}" target="_blank">{{page}}</a></span>
+                    <br/>
+                {% endfor %}
+                </section>
+            {% endif %}
+            <footer id="info">
+                <p class="search">Le moteur de recherche sur les pages Wikipedia</p>
+            </footer>
+        </section>
+</body>
+</html>
